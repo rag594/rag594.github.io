@@ -1,0 +1,100 @@
+# The URL the site will be built for
+base_url = "https://raghavrastogi.xyz"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+
+theme = "anatole-zola"
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+highlight_theme = "base16-ocean-dark"
+
+
+[extra]
+# Put all your custom variables here
+
+
+[languages.en]
+title = "Raghav Rastogi"
+description = "Software Engineer"
+generate_feeds = true
+taxonomies = [
+    {name = "tags"},
+]
+
+[languages.zh]
+title = "Anatole"
+description = "A other zola theme"
+generate_feeds = true
+taxonomies = [
+    {name = "tags"},
+]
+
+[languages.en.translations]
+language_name = "English"
+about = "About"
+home = "Home"
+tags = "Tags"
+archive = "Archive"
+links = "Links"
+date_format = "%Y-%m-%d"
+next_page = "Next Page"
+last_page = "Last Page"
+
+[languages.zh.translations]
+language_name = "中文"
+home = "首页"
+about = "关于"
+tags = "标签"
+archive = "归档"
+links = "友链"
+date_format = "%Y-%m-%d"
+next_page = "下一页"
+last_page = "上一页"
+
+[languages.de.translations]
+language_name = "Deutsch"
+about = "Info"
+home = "Home"
+tags = "Kategorien"
+archive = "Archiv"
+links = "Links"
+date_format = "%d-%m-%Y"
+next_page = "Nächste Seite"
+last_page = "Vorherige Seite"
+
+[languages.sv.translations]
+language_name = "Svenska"
+about = "Info"
+home = "Hem"
+tags = "Etiketter"
+archive = "Arkiv"
+links = "Länkar"
+date_format = "%Y-%m-%d"
+next_page = "Nästa Sidan"
+last_page = "Sista Sidan"
+
+[languages.ja.translations]
+language_name = "日本語"
+about = "About"
+home = "Home"
+tags = "タグ"
+archive = "アーカイブ"
+links = "リンク"
+date_format = "%Y-%m-%d"
+next_page = "次頁"
+last_page = "前頁"
+
+[extra.social]
+github = "rag594"
+linkedin = "raghavrastogi594"
+
+[extra.show]
+tags = true
+links = true
