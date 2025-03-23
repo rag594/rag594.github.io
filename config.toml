@@ -10,11 +10,11 @@ build_search_index = true
 theme = "kita"
 
 # The site title and description; used in feeds by default.
-title = ""
+title = "rag594"
 description = "Kita is a clean, elegant and simple blog theme for Zola."
 
 # The default site author.
-author = "st1020"
+author = "rag594"
 
 # The default language; used in feeds.
 default_language = "en"
@@ -115,7 +115,7 @@ url = "$BASE_URL/about"
 
 # The page footer options.
 [extra.footer]
-since = 2020
+since = 2025
 license = "CC BY-SA 4.0"
 license_url = "https://creativecommons.org/licenses/by-sa/4.0/deed"
 

@@ -1,54 +1,30 @@
 [[project]]
-name = "lorem"
-desc = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, nisi saepe dolor unde iusto dolore nam, vero optio consequuntur repudiandae et! Atque libero expedita laudantium cupiditate, sit explicabo sequi ipsa!"
-tags = ["nisi", "saepe"]
+name = "rustic"
+desc = "A minimalistic library in Go for HTTP Client and tracing constructs"
+tags = ["go",
+    "golang",
+    "middleware",
+    "minimal",
+    "http-client",
+    "type-safety",
+    "opentelemetry-go",
+    "circuit-breaker-go"]
 links = [
-    { name = "github", url = "https://example.com" },
-    { name = "docs", url = "https://example.com" },
+    { name = "github", url = "https://github.com/rag594/rustic" },
+    { name = "docs", url = "https://pkg.go.dev/github.com/rag594/rustic" },
 ]
 
 [[project]]
-name = "ipsum"
-desc = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, nisi saepe dolor unde iusto dolore nam, vero optio consequuntur repudiandae et! Atque libero expedita laudantium cupiditate, sit explicabo sequi ipsa!"
-tags = ["lorem", "ipsum"]
+name = "nimbus"
+desc = "CLI based tool to get insights on rules/alerts applied, based on Victoria Metrics"
+tags = ["go",
+    "cli",
+    "golang",
+    "monitoring",
+    "command-line",
+    "insights",
+    "command-line-tool",
+    "victoriametrics",]
 links = [
-    { name = "homepage", url = "https://example.com" },
-    { name = "source", url = "https://example.com" },
-    { name = "docs", url = "https://example.com" },
-]
-
-[[project]]
-name = "dolor sit"
-desc = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, nisi saepe dolor unde iusto dolore nam, vero optio consequuntur repudiandae et! Atque libero expedita laudantium cupiditate, sit explicabo sequi ipsa!"
-tags = ["amet", "ipsum", "vero", "optio"]
-links = [{ name = "github", url = "https://example.com" }]
-
-[[project]]
-name = "amet"
-desc = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, nisi saepe dolor unde iusto dolore nam, vero optio consequuntur repudiandae et! Atque libero expedita laudantium cupiditate, sit explicabo sequi ipsa!"
-tags = ["lorem", "ipsum"]
-links = [
-    { name = "website", url = "https://example.com" },
-    { name = "github", url = "https://example.com" },
-    { name = "docs", url = "https://example.com" },
-    { name = "wiki", url = "https://example.com" },
-]
-
-[[project]]
-name = "lorem-ipsum"
-desc = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, nisi saepe dolor unde iusto dolore nam, vero optio consequuntur repudiandae et! Atque libero expedita laudantium cupiditate, sit explicabo sequi ipsa!"
-tags = ["dolor", "lorem", "ipsum", "amet"]
-links = [
-    { name = "github", url = "https://example.com" },
-    { name = "docs", url = "https://example.com" },
-]
-
-[[project]]
-name = "praesentium"
-desc = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, nisi saepe dolor unde iusto dolore nam, vero optio consequuntur repudiandae et! Atque libero expedita laudantium cupiditate, sit explicabo sequi ipsa!"
-tags = ["lorem", "ipsum"]
-links = [
-    { name = "homepage", url = "https://example.com" },
-    { name = "github", url = "https://example.com" },
-    { name = "docs", url = "https://example.com" },
+    { name = "github", url = "https://github.com/rag594/nimbus" },
 ]
