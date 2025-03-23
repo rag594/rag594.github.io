@@ -18,6 +18,8 @@ highlight_theme = "base16-ocean-dark"
 
 [extra]
 # Put all your custom variables here
+gravatar_email = ""
+avatar = "img/linkedin_image.jpg"
 
 
 [languages.en]
