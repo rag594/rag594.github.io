@@ -1,0 +1,596 @@
+<!doctype html>
+<html class="not-ready lg:text-base" lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- Title -->
+  <title>
+    UUID vs SnowflakeId vs ULID in mysql for secondary index - rag594
+  </title>
+
+  <!-- Meta -->
+  <meta name="theme-color" />
+
+  
+  <!-- Author -->
+  
+  <!---->
+  
+  <!---->
+  
+  <!---->
+  
+  <!---->
+  
+  <!---->
+  <meta name="description" content="Sample article showcasing basic Markdown syntax and formatting for HTML elements." />
+  <meta name="author" content="rag594" />
+  <!-- The Open Graph protocol -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="UUID vs SnowflakeId vs ULID in mysql for secondary index" />
+  <meta property="og:site_name" content="rag594" />
+  <meta property="og:description" content="Sample article showcasing basic Markdown syntax and formatting for HTML elements." />
+  <meta property="og:url" content="https:&#x2F;&#x2F;raghavrastogi.xyz&#x2F;uuid-vs-snowflake-vs-ulid-nysql&#x2F;" />
+  
+  <!---->
+  
+  <!---->
+  
+  <!---->
+  
+  <meta property="og:image" content="https://raghavrastogi.xyz/icons/linkedin_image.jpg" />
+  
+  <!---->
+  
+
+  <!-- CSS & JS -->
+  <link rel="preload stylesheet" as="style" href="https://raghavrastogi.xyz/main.css" />
+  <style>
+    :root {
+      --bg: #f4f4f5;
+      --bg-dark: #18181b;
+      --header: #e4e4e7;
+      --header-dark: #27272a;
+    }
+  </style>
+
+  
+
+  <!-- Dark Icon -->
+  <link rel="preload" as="image" href="https://raghavrastogi.xyz/icons/theme.svg" />
+
+  <!-- Math -->
+  
+  <!---->
+
+  <!-- Mermaid -->
+  
+  <!---->
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://raghavrastogi.xyz/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://raghavrastogi.xyz/apple-touch-icon.png" />
+
+  <!-- Feeds -->
+  
+  <!---->
+  
+  <link
+    rel="alternate"
+    type="application/atom+xml"
+    title="Atom"
+    href="https://raghavrastogi.xyz/atom.xml"
+  />
+   
+  <!---->
+  
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https:&#x2F;&#x2F;raghavrastogi.xyz&#x2F;uuid-vs-snowflake-vs-ulid-nysql&#x2F;" />
+
+  <!-- Head inject -->
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header
+  class="header fixed top-0 z-40 mx-auto min-h-[3.5rem] w-full"
+>
+  <div class="mx-auto w-full max-w-4xl p-3 lg:flex lg:justify-between">
+    <div class="flex justify-between">
+      <div class="flex items-center">
+        <a class="text-2xl font-semibold" href="https://raghavrastogi.xyz">rag594</a>
+        <div
+          class="btn-dark ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0] [background:url(./icons/theme.svg)_left_center/cover_no-repeat] dark:invert dark:[background-position:right]"
+          role="button"
+          aria-label="Dark"
+        ></div>
+      </div>
+      
+      <div
+        class="btn-menu relative z-50 flex h-8 w-8 shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+        role="button"
+        aria-label="Menu"
+      ></div>
+      
+    </div>
+    <script>
+      // base
+      const htmlClass = document.documentElement.classList;
+      setTimeout(() => {
+        htmlClass.remove("not-ready");
+      }, 10);
+
+      // mobile menu
+      const btnMenu = document.querySelector(".btn-menu");
+      btnMenu?.addEventListener("click", () => {
+        htmlClass.toggle("open");
+      });
+
+      // dark theme
+      const setDark = (isDark) => {
+        if (isDark) {
+          document.body.dispatchEvent(new CustomEvent("set-theme", { detail: "dark" }));
+          htmlClass.add("dark");
+        } else {
+          document.body.dispatchEvent(new CustomEvent("set-theme", { detail: "light" }));
+          htmlClass.remove("dark");
+        }
+        localStorage.setItem("dark", isDark);
+      };
+
+      // init
+      const darkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+      if (htmlClass.contains("dark")) {
+        setDark(true);
+      } else {
+        const darkVal = localStorage.getItem("dark");
+        setDark(darkVal ? darkVal === "true" : darkScheme.matches);
+      }
+
+      // listen system
+      darkScheme.addEventListener("change", (event) => {
+        setDark(event.matches);
+      });
+
+      // manual switch
+      const btnDark = document.querySelector(".btn-dark");
+      btnDark.addEventListener("click", () => {
+        setDark(localStorage.getItem("dark") !== "true");
+      });
+    </script>
+    
+    <nav class="flex w-full items-center lg:w-auto">
+      <ul
+        class="nav-wrapper flex w-full flex-col py-2 lg:w-auto lg:flex-row lg:self-center lg:py-0"
+      >
+        
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="https://raghavrastogi.xyz/projects"
+            >Projects</a
+          >
+        </li>
+        
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="https://raghavrastogi.xyz/archive"
+            >Archive</a
+          >
+        </li>
+        
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="https://raghavrastogi.xyz/tags"
+            >Tags</a
+          >
+        </li>
+        
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="https://raghavrastogi.xyz/about"
+            >About</a
+          >
+        </li>
+        
+      </ul>
+      <!-- Header Nav inject -->
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <!-- Body Start inject -->
+    
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl break-words px-4 pb-16 pt-32 dark:prose-invert prose-pre:rounded-lg prose-img:rounded-lg"
+    >
+      
+<article>
+  <!-- Page Start inject -->
+  
+
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">UUID vs SnowflakeId vs ULID in mysql for secondary index</h1>
+    <div class="text-sm antialiased opacity-60">
+  
+  <time>2022-10-20</time>
+  <span class="mx-1">&middot;</span>
+  <span>1min</span>
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  
+  <span class="mx-1">&middot;</span>
+  <span>rag594</span>
+  
+  <!-- Page Info inject -->
+  
+</div>
+
+  </header>
+
+  
+
+  <!-- TOC -->
+  <!---->
+<div class="block-bg mb-12 flex rounded-lg p-2 text-lg">
+  <details>
+    <summary class="cursor-pointer py-1 pl-4">
+      <span>Table of Contents</span>
+    </summary>
+    <div class="px-2">
+      <ul>
+        
+        <li>
+          <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/uuid-vs-snowflake-vs-ulid-nysql/#uuid"
+            >UUID</a
+          >
+          
+          <ul>
+            
+            <li>
+              <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/uuid-vs-snowflake-vs-ulid-nysql/#schema"
+                >Schema</a
+              >
+            </li>
+            
+            <li>
+              <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/uuid-vs-snowflake-vs-ulid-nysql/#page-layout"
+                >Page layout</a
+              >
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/uuid-vs-snowflake-vs-ulid-nysql/#snowflakeid"
+            >SnowflakeId</a
+          >
+          
+          <ul>
+            
+            <li>
+              <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/uuid-vs-snowflake-vs-ulid-nysql/#schema-1"
+                >Schema</a
+              >
+            </li>
+            
+            <li>
+              <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/uuid-vs-snowflake-vs-ulid-nysql/#page-layout-1"
+                >Page Layout</a
+              >
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/uuid-vs-snowflake-vs-ulid-nysql/#ulid"
+            >ULID</a
+          >
+          
+          <ul>
+            
+            <li>
+              <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/uuid-vs-snowflake-vs-ulid-nysql/#schema-2"
+                >Schema</a
+              >
+            </li>
+            
+            <li>
+              <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/uuid-vs-snowflake-vs-ulid-nysql/#page-layout-2"
+                >Page Layout</a
+              >
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/uuid-vs-snowflake-vs-ulid-nysql/#script-to-generate-millions-of-ids"
+            >Script to generate Millions of Ids</a
+          >
+          
+        </li>
+        
+      </ul>
+    </div>
+  </details>
+</div>
+
+<!---->
+
+  <!-- Content -->
+  <section><p>Did some tinkering on how the data is stored in pages when UUID, SnowflakeId and ULID are stored as secondary indexes.</p>
+<h2 id="uuid">UUID</h2>
+<h3 id="schema">Schema</h3>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">CREATE TABLE </span><span>`</span><span style="color:#8fa1b3;">users_uuid</span><span>` (
+</span><span>  `</span><span style="color:#a3be8c;">id</span><span>` </span><span style="color:#b48ead;">int </span><span>NOT </span><span style="color:#d08770;">NULL</span><span> AUTO_INCREMENT,
+</span><span>  `</span><span style="color:#a3be8c;">uuid</span><span>` </span><span style="color:#b48ead;">varchar</span><span>(</span><span style="color:#d08770;">36</span><span>) NOT </span><span style="color:#d08770;">NULL</span><span>,
+</span><span>  `</span><span style="color:#a3be8c;">name</span><span>` </span><span style="color:#b48ead;">varchar</span><span>(</span><span style="color:#d08770;">50</span><span>) </span><span style="color:#b48ead;">DEFAULT </span><span style="color:#d08770;">NULL</span><span>,
+</span><span>  </span><span style="color:#b48ead;">PRIMARY KEY</span><span> (`</span><span style="color:#a3be8c;">id</span><span>`),
+</span><span>  KEY `</span><span style="color:#a3be8c;">idx_uuid</span><span>` (`</span><span style="color:#a3be8c;">uuid</span><span>`)
+</span><span>) ENGINE=InnoDB AUTO_INCREMENT=</span><span style="color:#d08770;">2000001 </span><span style="color:#b48ead;">DEFAULT</span><span> CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+</span></code></pre>
+<h3 id="page-layout">Page layout</h3>
+<p><img src="/uuid_page1.png" alt="Page Layout 1" /></p>
+<p><img src="/uuid_page2.png" alt="Page Layout 2" /></p>
+<p><img src="/uuid_page3.png" alt="Page Layout 3" /></p>
+<h2 id="snowflakeid">SnowflakeId</h2>
+<h3 id="schema-1">Schema</h3>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">CREATE TABLE </span><span>`</span><span style="color:#8fa1b3;">users_snowflake</span><span>` (
+</span><span>  `</span><span style="color:#a3be8c;">id</span><span>` </span><span style="color:#b48ead;">int </span><span>NOT </span><span style="color:#d08770;">NULL</span><span> AUTO_INCREMENT,
+</span><span>  `</span><span style="color:#a3be8c;">snowflake_id</span><span>` </span><span style="color:#b48ead;">bigint</span><span> unsigned NOT </span><span style="color:#d08770;">NULL</span><span>,
+</span><span>  `</span><span style="color:#a3be8c;">name</span><span>` </span><span style="color:#b48ead;">varchar</span><span>(</span><span style="color:#d08770;">50</span><span>) </span><span style="color:#b48ead;">DEFAULT </span><span style="color:#d08770;">NULL</span><span>,
+</span><span>  </span><span style="color:#b48ead;">PRIMARY KEY</span><span> (`</span><span style="color:#a3be8c;">id</span><span>`),
+</span><span>  KEY `</span><span style="color:#a3be8c;">idx_snowflake_id</span><span>` (`</span><span style="color:#a3be8c;">snowflake_id</span><span>`)
+</span><span>) ENGINE=InnoDB AUTO_INCREMENT=</span><span style="color:#d08770;">2000001 </span><span style="color:#b48ead;">DEFAULT</span><span> CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+</span></code></pre>
+<h3 id="page-layout-1">Page Layout</h3>
+<p><img src="/snowflake_page1.png" alt="Page Layout 1" /></p>
+<p><img src="/snowflake_page2.png" alt="Page Layout 2" /></p>
+<h2 id="ulid">ULID</h2>
+<h3 id="schema-2">Schema</h3>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">CREATE TABLE </span><span>`</span><span style="color:#8fa1b3;">users_ulid</span><span>` (
+</span><span>  `</span><span style="color:#a3be8c;">id</span><span>` </span><span style="color:#b48ead;">int </span><span>NOT </span><span style="color:#d08770;">NULL</span><span> AUTO_INCREMENT,
+</span><span>  `</span><span style="color:#a3be8c;">ulid</span><span>` </span><span style="color:#b48ead;">varchar</span><span>(</span><span style="color:#d08770;">26</span><span>) NOT </span><span style="color:#d08770;">NULL</span><span>,
+</span><span>  `</span><span style="color:#a3be8c;">name</span><span>` </span><span style="color:#b48ead;">varchar</span><span>(</span><span style="color:#d08770;">50</span><span>) </span><span style="color:#b48ead;">DEFAULT </span><span style="color:#d08770;">NULL</span><span>,
+</span><span>  </span><span style="color:#b48ead;">PRIMARY KEY</span><span> (`</span><span style="color:#a3be8c;">id</span><span>`),
+</span><span>  KEY `</span><span style="color:#a3be8c;">idx_ulid</span><span>` (`</span><span style="color:#a3be8c;">ulid</span><span>`)
+</span><span>) ENGINE=InnoDB AUTO_INCREMENT=</span><span style="color:#d08770;">1000001 </span><span style="color:#b48ead;">DEFAULT</span><span> CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+</span></code></pre>
+<h3 id="page-layout-2">Page Layout</h3>
+<p><img src="/ulid_page1.png" alt="Page Layout 1" /></p>
+<p><img src="/ulid_page2.png" alt="Page Layout 2" /></p>
+<h2 id="script-to-generate-millions-of-ids">Script to generate Millions of Ids</h2>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">package </span><span style="color:#bf616a;">main
+</span><span>
+</span><span style="color:#b48ead;">import </span><span>(
+</span><span>	&quot;</span><span style="color:#a3be8c;">database/sql</span><span>&quot;
+</span><span>	&quot;</span><span style="color:#a3be8c;">flag</span><span>&quot;
+</span><span>	&quot;</span><span style="color:#a3be8c;">fmt</span><span>&quot;
+</span><span>	&quot;</span><span style="color:#a3be8c;">log</span><span>&quot;
+</span><span>	&quot;</span><span style="color:#a3be8c;">math/rand</span><span>&quot;
+</span><span>	&quot;</span><span style="color:#a3be8c;">time</span><span>&quot;
+</span><span>
+</span><span>	&quot;</span><span style="color:#a3be8c;">github.com/bwmarrin/snowflake</span><span>&quot;
+</span><span>	</span><span style="color:#bf616a;">_ </span><span>&quot;</span><span style="color:#a3be8c;">github.com/go-sql-driver/mysql</span><span>&quot;
+</span><span>	&quot;</span><span style="color:#a3be8c;">github.com/google/uuid</span><span>&quot;
+</span><span>	&quot;</span><span style="color:#a3be8c;">github.com/oklog/ulid/v2</span><span>&quot;
+</span><span>)
+</span><span>
+</span><span style="color:#65737e;">// Snowflake ID generator (naive)
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">generateSnowflakeID</span><span>() </span><span style="color:#b48ead;">uint64 </span><span>{
+</span><span>	</span><span style="color:#65737e;">// Create a new Node with a Node number of 1
+</span><span>	</span><span style="color:#bf616a;">node</span><span>, </span><span style="color:#bf616a;">err </span><span>:= </span><span style="color:#bf616a;">snowflake</span><span>.</span><span style="color:#bf616a;">NewNode</span><span>(</span><span style="color:#bf616a;">rand</span><span>.</span><span style="color:#bf616a;">Int63n</span><span>(</span><span style="color:#d08770;">1023</span><span>))
+</span><span>	</span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">err </span><span>!= </span><span style="color:#d08770;">nil </span><span>{
+</span><span>		</span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(</span><span style="color:#bf616a;">err</span><span>)
+</span><span>	}
+</span><span>	</span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">uint64</span><span>(</span><span style="color:#bf616a;">node</span><span>.</span><span style="color:#bf616a;">Generate</span><span>().</span><span style="color:#bf616a;">Int64</span><span>())
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// ULID generator
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">generateULID</span><span>() </span><span style="color:#b48ead;">string </span><span>{
+</span><span>	</span><span style="color:#bf616a;">entropy </span><span>:= </span><span style="color:#bf616a;">ulid</span><span>.</span><span style="color:#bf616a;">Monotonic</span><span>(</span><span style="color:#bf616a;">rand</span><span>.</span><span style="color:#bf616a;">New</span><span>(</span><span style="color:#bf616a;">rand</span><span>.</span><span style="color:#bf616a;">NewSource</span><span>(</span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Now</span><span>().</span><span style="color:#bf616a;">UnixNano</span><span>())), </span><span style="color:#d08770;">0</span><span>)
+</span><span>	</span><span style="color:#bf616a;">id </span><span>:= </span><span style="color:#bf616a;">ulid</span><span>.</span><span style="color:#bf616a;">MustNew</span><span>(</span><span style="color:#bf616a;">ulid</span><span>.</span><span style="color:#bf616a;">Timestamp</span><span>(</span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Now</span><span>()), </span><span style="color:#bf616a;">entropy</span><span>)
+</span><span>	</span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">id</span><span>.</span><span style="color:#bf616a;">String</span><span>()
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">insertUUIDs</span><span>(</span><span style="color:#bf616a;">db </span><span>*</span><span style="color:#bf616a;">sql</span><span>.</span><span style="color:#b48ead;">DB</span><span>, </span><span style="color:#bf616a;">total </span><span style="color:#b48ead;">int</span><span>) {
+</span><span>	</span><span style="color:#bf616a;">stmt</span><span>, </span><span style="color:#bf616a;">err </span><span>:= </span><span style="color:#bf616a;">db</span><span>.</span><span style="color:#bf616a;">Prepare</span><span>(&quot;</span><span style="color:#a3be8c;">INSERT INTO users_uuid (uuid, name) VALUES (?, ?)</span><span>&quot;)
+</span><span>	</span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">err </span><span>!= </span><span style="color:#d08770;">nil </span><span>{
+</span><span>		</span><span style="color:#bf616a;">log</span><span>.</span><span style="color:#bf616a;">Fatal</span><span>(</span><span style="color:#bf616a;">err</span><span>)
+</span><span>	}
+</span><span>	</span><span style="color:#b48ead;">defer </span><span style="color:#bf616a;">stmt</span><span>.</span><span style="color:#bf616a;">Close</span><span>()
+</span><span>
+</span><span>	</span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">i </span><span>:= </span><span style="color:#d08770;">0</span><span>; </span><span style="color:#bf616a;">i </span><span>&lt; </span><span style="color:#bf616a;">total</span><span>; </span><span style="color:#bf616a;">i</span><span>++ {
+</span><span>		</span><span style="color:#bf616a;">id </span><span>:= </span><span style="color:#bf616a;">uuid</span><span>.</span><span style="color:#bf616a;">New</span><span>().</span><span style="color:#bf616a;">String</span><span>()
+</span><span>		</span><span style="color:#bf616a;">name </span><span>:= </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Sprintf</span><span>(&quot;</span><span style="color:#a3be8c;">User_</span><span style="color:#d08770;">%d</span><span>&quot;, </span><span style="color:#bf616a;">i</span><span>)
+</span><span>		</span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">_</span><span>, </span><span style="color:#bf616a;">err </span><span>:= </span><span style="color:#bf616a;">stmt</span><span>.</span><span style="color:#bf616a;">Exec</span><span>(</span><span style="color:#bf616a;">id</span><span>, </span><span style="color:#bf616a;">name</span><span>); </span><span style="color:#bf616a;">err </span><span>!= </span><span style="color:#d08770;">nil </span><span>{
+</span><span>			</span><span style="color:#bf616a;">log</span><span>.</span><span style="color:#bf616a;">Fatal</span><span>(</span><span style="color:#bf616a;">err</span><span>)
+</span><span>		}
+</span><span>		</span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">i</span><span>%</span><span style="color:#d08770;">10000 </span><span>== </span><span style="color:#d08770;">0 </span><span>{
+</span><span>			</span><span style="color:#bf616a;">log</span><span>.</span><span style="color:#bf616a;">Printf</span><span>(&quot;</span><span style="color:#a3be8c;">Inserted </span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;"> UUID rows...</span><span>&quot;, </span><span style="color:#bf616a;">i</span><span>)
+</span><span>		}
+</span><span>	}
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">insertSnowflakeIDs</span><span>(</span><span style="color:#bf616a;">db </span><span>*</span><span style="color:#bf616a;">sql</span><span>.</span><span style="color:#b48ead;">DB</span><span>, </span><span style="color:#bf616a;">total </span><span style="color:#b48ead;">int</span><span>) {
+</span><span>	</span><span style="color:#bf616a;">stmt</span><span>, </span><span style="color:#bf616a;">err </span><span>:= </span><span style="color:#bf616a;">db</span><span>.</span><span style="color:#bf616a;">Prepare</span><span>(&quot;</span><span style="color:#a3be8c;">INSERT INTO users_snowflake (snowflake_id, name) VALUES (?, ?)</span><span>&quot;)
+</span><span>	</span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">err </span><span>!= </span><span style="color:#d08770;">nil </span><span>{
+</span><span>		</span><span style="color:#bf616a;">log</span><span>.</span><span style="color:#bf616a;">Fatal</span><span>(</span><span style="color:#bf616a;">err</span><span>)
+</span><span>	}
+</span><span>	</span><span style="color:#b48ead;">defer </span><span style="color:#bf616a;">stmt</span><span>.</span><span style="color:#bf616a;">Close</span><span>()
+</span><span>
+</span><span>	</span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">i </span><span>:= </span><span style="color:#d08770;">0</span><span>; </span><span style="color:#bf616a;">i </span><span>&lt; </span><span style="color:#bf616a;">total</span><span>; </span><span style="color:#bf616a;">i</span><span>++ {
+</span><span>		</span><span style="color:#bf616a;">id </span><span>:= </span><span style="color:#bf616a;">generateSnowflakeID</span><span>()
+</span><span>		</span><span style="color:#bf616a;">name </span><span>:= </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Sprintf</span><span>(&quot;</span><span style="color:#a3be8c;">User_</span><span style="color:#d08770;">%d</span><span>&quot;, </span><span style="color:#bf616a;">i</span><span>)
+</span><span>		</span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">_</span><span>, </span><span style="color:#bf616a;">err </span><span>:= </span><span style="color:#bf616a;">stmt</span><span>.</span><span style="color:#bf616a;">Exec</span><span>(</span><span style="color:#bf616a;">id</span><span>, </span><span style="color:#bf616a;">name</span><span>); </span><span style="color:#bf616a;">err </span><span>!= </span><span style="color:#d08770;">nil </span><span>{
+</span><span>			</span><span style="color:#bf616a;">log</span><span>.</span><span style="color:#bf616a;">Fatal</span><span>(</span><span style="color:#bf616a;">err</span><span>)
+</span><span>		}
+</span><span>		</span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">i</span><span>%</span><span style="color:#d08770;">10000 </span><span>== </span><span style="color:#d08770;">0 </span><span>{
+</span><span>			</span><span style="color:#bf616a;">log</span><span>.</span><span style="color:#bf616a;">Printf</span><span>(&quot;</span><span style="color:#a3be8c;">Inserted </span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;"> Snowflake rows...</span><span>&quot;, </span><span style="color:#bf616a;">i</span><span>)
+</span><span>		}
+</span><span>	}
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">insertULIDs</span><span>(</span><span style="color:#bf616a;">db </span><span>*</span><span style="color:#bf616a;">sql</span><span>.</span><span style="color:#b48ead;">DB</span><span>, </span><span style="color:#bf616a;">total </span><span style="color:#b48ead;">int</span><span>) {
+</span><span>	</span><span style="color:#bf616a;">stmt</span><span>, </span><span style="color:#bf616a;">err </span><span>:= </span><span style="color:#bf616a;">db</span><span>.</span><span style="color:#bf616a;">Prepare</span><span>(&quot;</span><span style="color:#a3be8c;">INSERT INTO users_ulid (ulid, name) VALUES (?, ?)</span><span>&quot;)
+</span><span>	</span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">err </span><span>!= </span><span style="color:#d08770;">nil </span><span>{
+</span><span>		</span><span style="color:#bf616a;">log</span><span>.</span><span style="color:#bf616a;">Fatal</span><span>(</span><span style="color:#bf616a;">err</span><span>)
+</span><span>	}
+</span><span>	</span><span style="color:#b48ead;">defer </span><span style="color:#bf616a;">stmt</span><span>.</span><span style="color:#bf616a;">Close</span><span>()
+</span><span>
+</span><span>	</span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">i </span><span>:= </span><span style="color:#d08770;">0</span><span>; </span><span style="color:#bf616a;">i </span><span>&lt; </span><span style="color:#bf616a;">total</span><span>; </span><span style="color:#bf616a;">i</span><span>++ {
+</span><span>		</span><span style="color:#bf616a;">id </span><span>:= </span><span style="color:#bf616a;">generateULID</span><span>()
+</span><span>		</span><span style="color:#bf616a;">name </span><span>:= </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Sprintf</span><span>(&quot;</span><span style="color:#a3be8c;">User_</span><span style="color:#d08770;">%d</span><span>&quot;, </span><span style="color:#bf616a;">i</span><span>)
+</span><span>		</span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">_</span><span>, </span><span style="color:#bf616a;">err </span><span>:= </span><span style="color:#bf616a;">stmt</span><span>.</span><span style="color:#bf616a;">Exec</span><span>(</span><span style="color:#bf616a;">id</span><span>, </span><span style="color:#bf616a;">name</span><span>); </span><span style="color:#bf616a;">err </span><span>!= </span><span style="color:#d08770;">nil </span><span>{
+</span><span>			</span><span style="color:#bf616a;">log</span><span>.</span><span style="color:#bf616a;">Fatal</span><span>(</span><span style="color:#bf616a;">err</span><span>)
+</span><span>		}
+</span><span>		</span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">i</span><span>%</span><span style="color:#d08770;">10000 </span><span>== </span><span style="color:#d08770;">0 </span><span>{
+</span><span>			</span><span style="color:#bf616a;">log</span><span>.</span><span style="color:#bf616a;">Printf</span><span>(&quot;</span><span style="color:#a3be8c;">Inserted </span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;"> ULID rows...</span><span>&quot;, </span><span style="color:#bf616a;">i</span><span>)
+</span><span>		}
+</span><span>	}
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>	</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">mode </span><span style="color:#b48ead;">string
+</span><span>	</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">count </span><span style="color:#b48ead;">int
+</span><span>	</span><span style="color:#bf616a;">flag</span><span>.</span><span style="color:#bf616a;">StringVar</span><span>(&amp;</span><span style="color:#bf616a;">mode</span><span>, &quot;</span><span style="color:#a3be8c;">mode</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">uuid</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">Mode: uuid | snowflake | ulid</span><span>&quot;)
+</span><span>	</span><span style="color:#bf616a;">flag</span><span>.</span><span style="color:#bf616a;">IntVar</span><span>(&amp;</span><span style="color:#bf616a;">count</span><span>, &quot;</span><span style="color:#a3be8c;">count</span><span>&quot;, </span><span style="color:#d08770;">1000000</span><span>, &quot;</span><span style="color:#a3be8c;">Number of rows to insert</span><span>&quot;)
+</span><span>	</span><span style="color:#bf616a;">flag</span><span>.</span><span style="color:#bf616a;">Parse</span><span>()
+</span><span>
+</span><span>	</span><span style="color:#bf616a;">dsn </span><span>:= &quot;</span><span style="color:#a3be8c;">rag594:raghav@tcp(127.0.0.1:3306)/test_ids?parseTime=true</span><span>&quot;
+</span><span>	</span><span style="color:#bf616a;">db</span><span>, </span><span style="color:#bf616a;">err </span><span>:= </span><span style="color:#bf616a;">sql</span><span>.</span><span style="color:#bf616a;">Open</span><span>(&quot;</span><span style="color:#a3be8c;">mysql</span><span>&quot;, </span><span style="color:#bf616a;">dsn</span><span>)
+</span><span>	</span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">err </span><span>!= </span><span style="color:#d08770;">nil </span><span>{
+</span><span>		</span><span style="color:#bf616a;">log</span><span>.</span><span style="color:#bf616a;">Fatal</span><span>(</span><span style="color:#bf616a;">err</span><span>)
+</span><span>	}
+</span><span>	</span><span style="color:#b48ead;">defer </span><span style="color:#bf616a;">db</span><span>.</span><span style="color:#bf616a;">Close</span><span>()
+</span><span>
+</span><span>	</span><span style="color:#bf616a;">start </span><span>:= </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Now</span><span>()
+</span><span>
+</span><span>	</span><span style="color:#b48ead;">switch </span><span style="color:#bf616a;">mode </span><span>{
+</span><span>	</span><span style="color:#b48ead;">case </span><span>&quot;</span><span style="color:#a3be8c;">uuid</span><span>&quot;:
+</span><span>		</span><span style="color:#bf616a;">insertUUIDs</span><span>(</span><span style="color:#bf616a;">db</span><span>, </span><span style="color:#bf616a;">count</span><span>)
+</span><span>	</span><span style="color:#b48ead;">case </span><span>&quot;</span><span style="color:#a3be8c;">snowflake</span><span>&quot;:
+</span><span>		</span><span style="color:#bf616a;">insertSnowflakeIDs</span><span>(</span><span style="color:#bf616a;">db</span><span>, </span><span style="color:#bf616a;">count</span><span>)
+</span><span>	</span><span style="color:#b48ead;">case </span><span>&quot;</span><span style="color:#a3be8c;">ulid</span><span>&quot;:
+</span><span>		</span><span style="color:#bf616a;">insertULIDs</span><span>(</span><span style="color:#bf616a;">db</span><span>, </span><span style="color:#bf616a;">count</span><span>)
+</span><span>	</span><span style="color:#b48ead;">default</span><span>:
+</span><span>		</span><span style="color:#bf616a;">log</span><span>.</span><span style="color:#bf616a;">Fatalf</span><span>(&quot;</span><span style="color:#a3be8c;">Unknown mode: </span><span style="color:#d08770;">%s</span><span>&quot;, </span><span style="color:#bf616a;">mode</span><span>)
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#bf616a;">log</span><span>.</span><span style="color:#bf616a;">Printf</span><span>(&quot;</span><span style="color:#a3be8c;">Done inserting </span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;"> rows using </span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;">. Took: </span><span style="color:#d08770;">%s</span><span style="color:#96b5b4;">\n</span><span>&quot;, </span><span style="color:#bf616a;">count</span><span>, </span><span style="color:#bf616a;">mode</span><span>, </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Since</span><span>(</span><span style="color:#bf616a;">start</span><span>))
+</span><span>}
+</span></code></pre>
+</section>
+
+  <hr />
+
+  <!-- Post Taxonomies -->
+  
+<footer class="mt-12 flex flex-col">
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  
+  <div class="mb-2 flex flex-wrap">
+    <span class="block-bg mb-1.5 mr-1.5 rounded-lg px-5 py-1.5">Tags </span>
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="https://raghavrastogi.xyz/tags/innodb/"
+      >innodb</a
+    >
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="https://raghavrastogi.xyz/tags/mysql/"
+      >mysql</a
+    >
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="https://raghavrastogi.xyz/tags/ulid/"
+      >ulid</a
+    >
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="https://raghavrastogi.xyz/tags/snowflakeid/"
+      >snowflakeId</a
+    >
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="https://raghavrastogi.xyz/tags/uuid/"
+      >uuid</a
+    >
+    
+  </div>
+  
+</footer>
+
+<!---->
+
+  <!-- Post Nav -->
+  
+<!---->
+
+  <!-- Comment -->
+  
+
+  <!-- Page End inject -->
+  
+</article>
+
+    </main>
+
+    <footer class="mx-auto flex max-w-3xl flex-wrap items-center px-8 py-4 text-sm opacity-60">
+  <div class="mr-auto basis-full lg:basis-1/2">
+    <!---->
+    <!---->
+    &copy; 2025<!---->
+    
+    <a class="link" href="https://raghavrastogi.xyz">
+      rag594
+    </a>
+     |<!---->
+    <!---->
+    <a class="link" href="https:&#x2F;&#x2F;creativecommons.org&#x2F;licenses&#x2F;by-sa&#x2F;4.0&#x2F;deed" rel="noopener" target="_blank">
+      CC BY-SA 4.0
+    </a>
+    <!---->
+    
+  </div>
+  <div class="flex basis-full lg:basis-1/2 lg:justify-end">
+    <a class="link mr-6 lg:ml-6" href="https://www.getzola.org/" rel="noopener" target="_blank">
+      Powered by Zola
+    </a>
+    <a class="link" href="https://github.com/st1020/kita" rel="noopener" target="_blank">✎ Kita</a>
+  </div>
+  <!-- Footer inject -->
+  
+</footer>
+
+
+    <!-- Body End inject -->
+    
+  </body>
+</html>
