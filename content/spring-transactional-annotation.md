@@ -7,7 +7,7 @@ tags = ["spring", "annotations", "transactional", "proxy", "aop"]
 +++
 
 In Spring we widely use **@Transactional** annotation for executing bunch of stuff wrapped up in a DB transaction.
-Spring makes it easier for us to leverage AOP(Aspect Oriented programming) and does not pollute our business logic with DB Transaction, security, caching, logging etc. Before diving into the nitty-gritties of **@Transactional**, lets start with AOP and how does Spring makes use of it for **@Transactional**
+Spring makes it easier for us to leverage AOP(Aspect Oriented programming) and does not pollute our business logic with DB Transaction, security, caching, logging etc. Before diving into the nitty-gritties of **@Transactional**, lets start with what are proxy objects and how does Spring makes use of it for **@Transactional**
 
 ## What is a proxy and how does Spring uses it under the hood?
 
