@@ -70,9 +70,9 @@ After doWork
 
 ## How does Springs **@Transactional** Works ?
 
-Springs **@Transactional** simply creates a database transaction for bunch of stuff inside the method annotaed with it. **@Transactional** uses proxy objects to wrap up the business logic inside inside transactions.
+Springs **@Transactional** simply creates a database transaction for bunch of stuff inside the method annotated with it. **@Transactional** uses proxy objects to wrap up the business logic inside transactions.
 
-Lets consider an example to understand.We have UserService which in turn uses UserRepository to persist.
+Lets consider an example to understand.We have `UserService` which in turn uses `UserRepository` to persist.
 
 ```java
 // UserService.java
@@ -112,7 +112,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 ### When createUser is invoked(Directing invoking method annotated with **@Transactional**)
 
-When **createUser** is invoked directly, proxy object which was created for UserService is used and wraps the actual business logic with **TransactionInterceptor** (an advice which gets invoked by proxy and starts the transaction).
+When **createUser** is invoked directly, proxy object which was created for `UserService` is used and wraps the actual business logic with **TransactionInterceptor** (an advice which gets invoked by proxy and starts the transaction).
 
 ![createUser](/spring-direct-invoking-transaction.png)
 
