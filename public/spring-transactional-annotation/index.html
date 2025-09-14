@@ -1,0 +1,480 @@
+<!doctype html>
+<html class="not-ready lg:text-base" lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- Title -->
+  <title>
+    Dissecting Springs @Transactional Annotation - rag594
+  </title>
+
+  <!-- Meta -->
+  <meta name="theme-color" />
+
+  
+  <!-- Author -->
+  
+  <!---->
+  
+  <!---->
+  
+  <!---->
+  
+  <!---->
+  
+  <!---->
+  <meta name="description" content="How does Springs @Transactional annotation works and gotchas" />
+  <meta name="author" content="rag594" />
+  <!-- The Open Graph protocol -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Dissecting Springs @Transactional Annotation" />
+  <meta property="og:site_name" content="rag594" />
+  <meta property="og:description" content="How does Springs @Transactional annotation works and gotchas" />
+  <meta property="og:url" content="https:&#x2F;&#x2F;raghavrastogi.xyz&#x2F;spring-transactional-annotation&#x2F;" />
+  
+  <!---->
+  
+  <!---->
+  
+  <!---->
+  
+  <meta property="og:image" content="https://raghavrastogi.xyz/icons/linkedin_image.jpg" />
+  
+  <!---->
+  
+
+  <!-- CSS & JS -->
+  <link rel="preload stylesheet" as="style" href="https://raghavrastogi.xyz/main.css" />
+  <style>
+    :root {
+      --bg: #f4f4f5;
+      --bg-dark: #18181b;
+      --header: #e4e4e7;
+      --header-dark: #27272a;
+    }
+  </style>
+
+  
+
+  <!-- Dark Icon -->
+  <link rel="preload" as="image" href="https://raghavrastogi.xyz/icons/theme.svg" />
+
+  <!-- Math -->
+  
+  <!---->
+
+  <!-- Mermaid -->
+  
+  <!---->
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://raghavrastogi.xyz/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://raghavrastogi.xyz/apple-touch-icon.png" />
+
+  <!-- Feeds -->
+  
+  <!---->
+  
+  <link
+    rel="alternate"
+    type="application/atom+xml"
+    title="Atom"
+    href="https://raghavrastogi.xyz/atom.xml"
+  />
+   
+  <!---->
+  
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https:&#x2F;&#x2F;raghavrastogi.xyz&#x2F;spring-transactional-annotation&#x2F;" />
+
+  <!-- Head inject -->
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header
+  class="header fixed top-0 z-40 mx-auto min-h-[3.5rem] w-full"
+>
+  <div class="mx-auto w-full max-w-4xl p-3 lg:flex lg:justify-between">
+    <div class="flex justify-between">
+      <div class="flex items-center">
+        <a class="text-2xl font-semibold" href="https://raghavrastogi.xyz">rag594</a>
+        <div
+          class="btn-dark ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0] [background:url(./icons/theme.svg)_left_center/cover_no-repeat] dark:invert dark:[background-position:right]"
+          role="button"
+          aria-label="Dark"
+        ></div>
+      </div>
+      
+      <div
+        class="btn-menu relative z-50 flex h-8 w-8 shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+        role="button"
+        aria-label="Menu"
+      ></div>
+      
+    </div>
+    <script>
+      // base
+      const htmlClass = document.documentElement.classList;
+      setTimeout(() => {
+        htmlClass.remove("not-ready");
+      }, 10);
+
+      // mobile menu
+      const btnMenu = document.querySelector(".btn-menu");
+      btnMenu?.addEventListener("click", () => {
+        htmlClass.toggle("open");
+      });
+
+      // dark theme
+      const setDark = (isDark) => {
+        if (isDark) {
+          document.body.dispatchEvent(new CustomEvent("set-theme", { detail: "dark" }));
+          htmlClass.add("dark");
+        } else {
+          document.body.dispatchEvent(new CustomEvent("set-theme", { detail: "light" }));
+          htmlClass.remove("dark");
+        }
+        localStorage.setItem("dark", isDark);
+      };
+
+      // init
+      const darkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+      if (htmlClass.contains("dark")) {
+        setDark(true);
+      } else {
+        const darkVal = localStorage.getItem("dark");
+        setDark(darkVal ? darkVal === "true" : darkScheme.matches);
+      }
+
+      // listen system
+      darkScheme.addEventListener("change", (event) => {
+        setDark(event.matches);
+      });
+
+      // manual switch
+      const btnDark = document.querySelector(".btn-dark");
+      btnDark.addEventListener("click", () => {
+        setDark(localStorage.getItem("dark") !== "true");
+      });
+    </script>
+    
+    <nav class="flex w-full items-center lg:w-auto">
+      <ul
+        class="nav-wrapper flex w-full flex-col py-2 lg:w-auto lg:flex-row lg:self-center lg:py-0"
+      >
+        
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="https://raghavrastogi.xyz/projects"
+            >Projects</a
+          >
+        </li>
+        
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="https://raghavrastogi.xyz/archive"
+            >Archive</a
+          >
+        </li>
+        
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="https://raghavrastogi.xyz/tags"
+            >Tags</a
+          >
+        </li>
+        
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="https://raghavrastogi.xyz/about"
+            >About</a
+          >
+        </li>
+        
+      </ul>
+      <!-- Header Nav inject -->
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <!-- Body Start inject -->
+    
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl break-words px-4 pb-16 pt-32 dark:prose-invert prose-pre:rounded-lg prose-img:rounded-lg"
+    >
+      
+<article>
+  <!-- Page Start inject -->
+  
+
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Dissecting Springs @Transactional Annotation</h1>
+    <div class="text-sm antialiased opacity-60">
+  
+  <time>2025-09-13</time>
+  <span class="mx-1">&middot;</span>
+  <span>3min</span>
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  
+  <span class="mx-1">&middot;</span>
+  <span>rag594</span>
+  
+  <!-- Page Info inject -->
+  
+</div>
+
+  </header>
+
+  
+
+  <!-- TOC -->
+  <!---->
+<div class="block-bg mb-12 flex rounded-lg p-2 text-lg">
+  <details>
+    <summary class="cursor-pointer py-1 pl-4">
+      <span>Table of Contents</span>
+    </summary>
+    <div class="px-2">
+      <ul>
+        
+        <li>
+          <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/spring-transactional-annotation/#what-is-a-proxy-and-how-does-spring-uses-it-under-the-hood"
+            >What is a proxy and how does Spring uses it under the hood?</a
+          >
+          
+        </li>
+        
+        <li>
+          <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/spring-transactional-annotation/#how-does-springs-transactional-works"
+            >How does Springs @Transactional Works ?</a
+          >
+          
+          <ul>
+            
+            <li>
+              <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/spring-transactional-annotation/#when-createuser-is-invoked-directing-invoking-method-annotated-with-transactional"
+                >When createUser is invoked(Directing invoking method annotated with @Transactional)</a
+              >
+            </li>
+            
+            <li>
+              <a class="no-underline hover:underline" href="https://raghavrastogi.xyz/spring-transactional-annotation/#when-dosomething-is-invoked-indirect-invoking-method-annotated-with-transactional-within-same-bean"
+                >When doSomething is invoked(Indirect invoking method annotated with @Transactional within same bean)</a
+              >
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </div>
+  </details>
+</div>
+
+<!---->
+
+  <!-- Content -->
+  <section><p>In Spring we widely use <strong>@Transactional</strong> annotation for executing bunch of stuff wrapped up in a DB transaction.
+Spring makes it easier for us to leverage AOP(Aspect Oriented programming) and does not pollute our business logic with DB Transaction, security, caching, logging etc. Before diving into the nitty-gritties of <strong>@Transactional</strong>, lets start with what are proxy objects and how does Spring makes use of it for <strong>@Transactional</strong></p>
+<h2 id="what-is-a-proxy-and-how-does-spring-uses-it-under-the-hood">What is a proxy and how does Spring uses it under the hood?</h2>
+<p>Proxy acts like a substitute for the given object. It acts as a middleman and when any client calls a method on an object,
+proxy object appears and acts on behalf of that object and performs any kind of action before/after method invocation.</p>
+<p>In other programming lanuages like golang(we have hooks in GORM - <a href="https://gorm.io/docs/hooks.html">https://gorm.io/docs/hooks.html</a>) which behaves or act in a similar way. Below is a simple example.</p>
+<p>Lets say I have a Service interface which is implemented by a <code>DummyService</code>. <code>DummyService</code> simply just does a simple work and logs <code>Work is in progress</code>. What if there are actions I want to take before doing a work and after doing a work which does not have any relation with the actual work or the business logic??.</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span style="color:#b48ead;">public interface </span><span style="color:#ebcb8b;">Service </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">doWork</span><span style="color:#eff1f5;">();
+</span><span style="color:#eff1f5;">}
+</span></code></pre>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span style="color:#b48ead;">public class </span><span style="color:#ebcb8b;">DummyService </span><span style="color:#b48ead;">implements </span><span style="color:#a3be8c;">Service </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">    @</span><span style="color:#bf616a;">Override
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">public void </span><span style="color:#8fa1b3;">doWork</span><span style="color:#eff1f5;">() {
+</span><span style="color:#eff1f5;">        </span><span style="color:#ebcb8b;">System</span><span style="color:#eff1f5;">.out.</span><span style="color:#bf616a;">println</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Work is in progress</span><span>&quot;</span><span style="color:#eff1f5;">);
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">}
+</span></code></pre>
+<p>Here comes the proxy for the rescue which helps in performing the before and after work.</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span style="color:#b48ead;">public static</span><span> void </span><span style="color:#bf616a;">main</span><span>(</span><span style="color:#ebcb8b;">String</span><span style="color:#b48ead;">[]</span><span> args) {
+</span><span>	</span><span style="color:#65737e;">// 1. Create a dummy Service
+</span><span>	</span><span style="color:#ebcb8b;">Service</span><span> realDummyService = </span><span style="color:#b48ead;">new </span><span style="color:#ebcb8b;">DummyService</span><span>();
+</span><span>
+</span><span>	</span><span style="color:#65737e;">// 2. create a proxy and wrap the business logic/method invocation inside it.
+</span><span>	</span><span style="color:#65737e;">// Here before invoking the actual business logic we perform the before work
+</span><span>	</span><span style="color:#65737e;">// and after method invocation, perform the after work
+</span><span>	</span><span style="color:#ebcb8b;">Service</span><span> proxyDummyService = (</span><span style="color:#ebcb8b;">Service</span><span>) </span><span style="color:#ebcb8b;">Proxy</span><span>.</span><span style="color:#bf616a;">newProxyInstance</span><span>(
+</span><span>			realDummyService.</span><span style="color:#bf616a;">getClass</span><span>().</span><span style="color:#bf616a;">getClassLoader</span><span>(),
+</span><span>			</span><span style="color:#b48ead;">new </span><span style="color:#ebcb8b;">Class</span><span>[]{</span><span style="color:#ebcb8b;">Service</span><span>.</span><span style="color:#bf616a;">class</span><span>},
+</span><span>			(</span><span style="color:#ebcb8b;">Object </span><span style="color:#bf616a;">proxyObj</span><span>, </span><span style="color:#ebcb8b;">Method </span><span style="color:#bf616a;">method</span><span>, </span><span style="color:#ebcb8b;">Object</span><span style="color:#b48ead;">[] </span><span style="color:#bf616a;">methodArgs</span><span>) </span><span style="color:#b48ead;">-&gt; </span><span>{
+</span><span>				</span><span style="color:#65737e;">// Wrapping up the business logic inside proxy
+</span><span>				</span><span style="color:#ebcb8b;">System</span><span>.out.</span><span style="color:#bf616a;">println</span><span>(&quot;</span><span style="color:#a3be8c;">Before </span><span>&quot; + method.</span><span style="color:#bf616a;">getName</span><span>());
+</span><span>				</span><span style="color:#ebcb8b;">Object</span><span> result = method.</span><span style="color:#bf616a;">invoke</span><span>(realDummyService, methodArgs);
+</span><span>				</span><span style="color:#ebcb8b;">System</span><span>.out.</span><span style="color:#bf616a;">println</span><span>(&quot;</span><span style="color:#a3be8c;">After </span><span>&quot; + method.</span><span style="color:#bf616a;">getName</span><span>());
+</span><span>				</span><span style="color:#b48ead;">return</span><span> result;
+</span><span>			}
+</span><span>	);
+</span><span>
+</span><span>	</span><span style="color:#65737e;">// 3. invoke the method via proxy and not the actual object
+</span><span>	proxyDummyService.</span><span style="color:#bf616a;">doWork</span><span>();
+</span><span>}
+</span></code></pre>
+<p>Below is the output of how proxy works</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>Before doWork
+</span><span>Work is in progress
+</span><span>After doWork
+</span></code></pre>
+<h2 id="how-does-springs-transactional-works">How does Springs <strong>@Transactional</strong> Works ?</h2>
+<p>Springs <strong>@Transactional</strong> simply creates a database transaction for bunch of stuff inside the method annotated with it. <strong>@Transactional</strong> uses proxy objects to wrap up the business logic inside transactions.</p>
+<p>Lets consider an example to understand.We have <code>UserService</code> which in turn uses <code>UserRepository</code> to persist.</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span style="color:#65737e;">// UserService.java
+</span><span style="color:#b48ead;">import </span><span>org.springframework.stereotype.</span><span style="color:#ebcb8b;">Service</span><span>;
+</span><span style="color:#b48ead;">import </span><span>org.springframework.transaction.annotation.</span><span style="color:#ebcb8b;">Transactional</span><span>;
+</span><span>
+</span><span>@</span><span style="color:#bf616a;">Service
+</span><span style="color:#b48ead;">public class </span><span style="color:#ebcb8b;">UserService </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">private final </span><span style="color:#ebcb8b;">UserRepository </span><span style="color:#eff1f5;">userRepository;
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">public </span><span style="color:#8fa1b3;">UserService</span><span style="color:#eff1f5;">(</span><span style="color:#ebcb8b;">UserRepository </span><span style="color:#bf616a;">userRepository</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#bf616a;">this</span><span style="color:#eff1f5;">.userRepository </span><span>=</span><span style="color:#eff1f5;"> userRepository;
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">public void </span><span style="color:#8fa1b3;">doSomething</span><span style="color:#eff1f5;">(</span><span style="color:#ebcb8b;">String </span><span style="color:#bf616a;">name</span><span style="color:#eff1f5;">, </span><span style="color:#ebcb8b;">String </span><span style="color:#bf616a;">email</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#bf616a;">createUser</span><span style="color:#eff1f5;">(name, email);
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    @</span><span style="color:#bf616a;">Transactional
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">public void </span><span style="color:#8fa1b3;">createUser</span><span style="color:#eff1f5;">(</span><span style="color:#ebcb8b;">String </span><span style="color:#bf616a;">name</span><span style="color:#eff1f5;">, </span><span style="color:#ebcb8b;">String </span><span style="color:#bf616a;">email</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#ebcb8b;">User</span><span style="color:#eff1f5;"> user </span><span>= </span><span style="color:#b48ead;">new </span><span style="color:#ebcb8b;">User</span><span style="color:#eff1f5;">(name, email);
+</span><span style="color:#eff1f5;">        </span><span style="color:#ebcb8b;">System</span><span style="color:#eff1f5;">.out.</span><span style="color:#bf616a;">println</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Transaction active? </span><span>&quot; +
+</span><span style="color:#eff1f5;">                org.springframework.transaction.support.</span><span style="color:#ebcb8b;">TransactionSynchronizationManager</span><span style="color:#eff1f5;">.</span><span style="color:#bf616a;">isActualTransactionActive</span><span style="color:#eff1f5;">());
+</span><span style="color:#eff1f5;">        </span><span style="color:#bf616a;">this</span><span style="color:#eff1f5;">.userRepository.</span><span style="color:#bf616a;">save</span><span style="color:#eff1f5;">(user);
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">}
+</span></code></pre>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span style="color:#65737e;">// UserRepository.java
+</span><span style="color:#b48ead;">import </span><span>org.springframework.data.jpa.repository.</span><span style="color:#ebcb8b;">JpaRepository</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">public interface </span><span style="color:#ebcb8b;">UserRepository </span><span style="color:#b48ead;">extends </span><span style="color:#a3be8c;">JpaRepository</span><span style="color:#eff1f5;">&lt;</span><span style="color:#ebcb8b;">User</span><span style="color:#eff1f5;">, </span><span style="color:#ebcb8b;">Integer</span><span style="color:#eff1f5;">&gt; {
+</span><span style="color:#eff1f5;">}
+</span></code></pre>
+<h3 id="when-createuser-is-invoked-directing-invoking-method-annotated-with-transactional">When createUser is invoked(Directing invoking method annotated with <strong>@Transactional</strong>)</h3>
+<p>When <strong>createUser</strong> is invoked directly, proxy object which was created for <code>UserService</code> is used and wraps the actual business logic with <strong>TransactionInterceptor</strong> (an advice which gets invoked by proxy and starts the transaction).</p>
+<p><img src="/spring-direct-invoking-transaction.png" alt="createUser" /></p>
+<h3 id="when-dosomething-is-invoked-indirect-invoking-method-annotated-with-transactional-within-same-bean">When doSomething is invoked(Indirect invoking method annotated with <strong>@Transactional</strong> within same bean)</h3>
+<p>When <strong>doSomething</strong> is invoked, proxy does not get involved here as we invoke <code>createUser</code> it gets invoked from the same class and target object uses <code>this</code> to invoke <code>createUser</code>.</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span> </span><span style="color:#b48ead;">public</span><span> void </span><span style="color:#bf616a;">doSomething</span><span>(</span><span style="color:#ebcb8b;">String</span><span> name, </span><span style="color:#ebcb8b;">String</span><span> email) {
+</span><span>        </span><span style="color:#bf616a;">createUser</span><span>(name, email);
+</span><span>    }
+</span></code></pre>
+<p>Here only <code>UserRepository</code> proxy object which was created is used and wraps the actual business logic(save) with <strong>TransactionInterceptor</strong> (an advice which gets invoked by proxy and starts the transaction).</p>
+<p><img src="/spring-indirect-invoking-transaction.png" alt="doSomething" /></p>
+</section>
+
+  <hr />
+
+  <!-- Post Taxonomies -->
+  
+<footer class="mt-12 flex flex-col">
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  
+  <div class="mb-2 flex flex-wrap">
+    <span class="block-bg mb-1.5 mr-1.5 rounded-lg px-5 py-1.5">Tags </span>
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="https://raghavrastogi.xyz/tags/spring/"
+      >spring</a
+    >
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="https://raghavrastogi.xyz/tags/annotations/"
+      >annotations</a
+    >
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="https://raghavrastogi.xyz/tags/transactional/"
+      >transactional</a
+    >
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="https://raghavrastogi.xyz/tags/proxy/"
+      >proxy</a
+    >
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="https://raghavrastogi.xyz/tags/aop/"
+      >aop</a
+    >
+    
+  </div>
+  
+</footer>
+
+<!---->
+
+  <!-- Post Nav -->
+  
+<!---->
+
+  <!-- Comment -->
+  
+
+  <!-- Page End inject -->
+  
+</article>
+
+    </main>
+
+    <footer class="mx-auto flex max-w-3xl flex-wrap items-center px-8 py-4 text-sm opacity-60">
+  <div class="mr-auto basis-full lg:basis-1/2">
+    <!---->
+    <!---->
+    &copy; 2025<!---->
+    
+    <a class="link" href="https://raghavrastogi.xyz">
+      rag594
+    </a>
+     |<!---->
+    <!---->
+    <a class="link" href="https:&#x2F;&#x2F;creativecommons.org&#x2F;licenses&#x2F;by-sa&#x2F;4.0&#x2F;deed" rel="noopener" target="_blank">
+      CC BY-SA 4.0
+    </a>
+    <!---->
+    
+  </div>
+  <div class="flex basis-full lg:basis-1/2 lg:justify-end">
+    <a class="link mr-6 lg:ml-6" href="https://www.getzola.org/" rel="noopener" target="_blank">
+      Powered by Zola
+    </a>
+    <a class="link" href="https://github.com/st1020/kita" rel="noopener" target="_blank">✎ Kita</a>
+  </div>
+  <!-- Footer inject -->
+  
+</footer>
+
+
+    <!-- Body End inject -->
+    
+  </body>
+</html>

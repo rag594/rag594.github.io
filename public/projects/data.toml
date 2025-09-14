@@ -1,0 +1,30 @@
+[[project]]
+name = "rustic"
+desc = "A minimalistic library in Go for HTTP Client and tracing constructs"
+tags = ["go",
+    "golang",
+    "middleware",
+    "minimal",
+    "http-client",
+    "type-safety",
+    "opentelemetry-go",
+    "circuit-breaker-go"]
+links = [
+    { name = "github", url = "https://github.com/rag594/rustic" },
+    { name = "docs", url = "https://pkg.go.dev/github.com/rag594/rustic" },
+]
+
+[[project]]
+name = "nimbus"
+desc = "CLI based tool to get insights on rules/alerts applied, based on Victoria Metrics"
+tags = ["go",
+    "cli",
+    "golang",
+    "monitoring",
+    "command-line",
+    "insights",
+    "command-line-tool",
+    "victoriametrics",]
+links = [
+    { name = "github", url = "https://github.com/rag594/nimbus" },
+]

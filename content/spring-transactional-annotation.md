@@ -118,7 +118,7 @@ When **createUser** is invoked directly, proxy object which was created for `Use
 
 ### When doSomething is invoked(Indirect invoking method annotated with **@Transactional** within same bean)
 
-When **doSomething** is invoked, proxy does not get involved here as we invoke `createUser` it gets invoked from the same class and target object uses `this` to invoke `createUser`.
+When **doSomething** is invoked, proxy does not get involved here as we invoke `createUser` it gets invoked from the same class and target object uses `this` to invoke `createUser`. In this case proxy object of `UserService` does not wrap the business logic with **TransactionInterceptor** and it does not start a transaction.
 
 ```java
  public void doSomething(String name, String email) {
