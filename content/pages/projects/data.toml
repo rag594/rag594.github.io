@@ -15,6 +15,16 @@ links = [
 ]
 
 [[project]]
+name = "yakv"
+desc = "Yet another key value store on top of bitcask"
+tags = ["rust",
+        "bitcask",
+        "log-structured"]
+links = [
+    { name = "github", url = "https://github.com/rag594/yakv" }
+]
+
+[[project]]
 name = "nimbus"
 desc = "CLI based tool to get insights on rules/alerts applied, based on Victoria Metrics"
 tags = ["go",
