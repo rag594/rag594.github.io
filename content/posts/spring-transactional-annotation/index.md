@@ -1,8 +1,8 @@
 +++
-title = "Dissecting Springs @Transactional Annotation"
-date = "2025-09-13"
-description = "How does Springs @Transactional annotation works and gotchas"
-[taxonomies]
+title = "Dissecting Spring's @Transactional Annotation"
+date = 2025-09-13
+draft = false
+description = "How does Spring's @Transactional annotation works and gotchas"
 tags = ["spring", "annotations", "transactional", "proxy", "aop"]
 +++
 
@@ -68,9 +68,9 @@ Work is in progress
 After doWork
 ```
 
-## How does Springs **@Transactional** Works ?
+## How does Spring's **@Transactional** Works ?
 
-Springs **@Transactional** simply creates a database transaction for bunch of stuff inside the method annotated with it. **@Transactional** uses proxy objects to wrap up the business logic inside transactions.
+Spring's **@Transactional** simply creates a database transaction for bunch of stuff inside the method annotated with it. **@Transactional** uses proxy objects to wrap up the business logic inside transactions.
 
 Lets consider an example to understand.We have `UserService` which in turn uses `UserRepository` to persist.
 
@@ -114,7 +114,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 When **createUser** is invoked directly, proxy object which was created for `UserService` is used and wraps the actual business logic with **TransactionInterceptor** (an advice which gets invoked by proxy and starts the transaction).
 
-![createUser](/spring-direct-invoking-transaction.png)
+![createUser](spring-direct-invoking-transaction.png)
 
 ### When doSomething is invoked(Indirect invoking method annotated with **@Transactional** within same bean)
 
@@ -128,4 +128,4 @@ When **doSomething** is invoked, proxy does not get involved here as we invoke `
 
 Here only `UserRepository` proxy object which was created is used and wraps the actual business logic(save) with **TransactionInterceptor** (an advice which gets invoked by proxy and starts the transaction).
 
-![doSomething](/spring-indirect-invoking-transaction.png)
+![doSomething](spring-indirect-invoking-transaction.png)

@@ -1,0 +1,79 @@
+baseURL = "https://raghavrastogi.xyz/"
+title = "rag594"
+languageCode = "en-us"
+theme = "hugo-blog-awesome"
+
+[params]
+defaultColor = "auto"
+goToTop = true
+toc = false
+mainSections = ["posts"]
+dateFormat = "2 Jan 2006"
+
+[params.author]
+name = "Raghav Rastogi"
+intro = "Software Engineer"
+description = "I'm Raghav. I work at Cashfree Payments where I focus mainly on backend engineering. I like to tinker with stuff around different programming languages, observability and distributed systems."
+avatar = "avatar.jpg"
+
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/rag594"
+
+[[params.socialIcons]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/raghavrastogi594"
+
+[[params.socialIcons]]
+name = "rss"
+url = "/index.xml"
+
+[markup.highlight]
+noclasses = false
+
+[markup.tableOfContents]
+startLevel = 2
+endLevel = 4
+ordered = false
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[outputs]
+home = ["HTML", "RSS"]
+
+[[menu.main]]
+identifier = "posts"
+name = "Posts"
+url = "/posts/"
+weight = 10
+
+[[menu.main]]
+identifier = "projects"
+name = "Projects"
+url = "/projects/"
+weight = 20
+
+[[menu.main]]
+identifier = "archive"
+name = "Archive"
+url = "/archive/"
+weight = 30
+
+[[menu.main]]
+identifier = "tags"
+name = "Tags"
+url = "/tags/"
+weight = 40
+
+[[menu.main]]
+identifier = "about"
+name = "About"
+url = "/about/"
+weight = 50
+
+[[menu.main]]
+identifier = "wiki"
+name = "Wiki"
+url = "https://wiki.raghavrastogi.xyz/"
+weight = 60

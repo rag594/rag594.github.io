@@ -1,0 +1,53 @@
+{{ define "main" }}
+{{ $career := hugo.Data.career }}
+<div class="wrapper post">
+  <main class="page-content" aria-label="Content">
+    <article>
+      <header class="header">
+        <h1 class="header-title">{{ .Title }}</h1>
+      </header>
+
+      <div class="page-content">
+        <p>{{ $career.summary }}</p>
+
+        <p>
+          <a href="{{ $career.resume_pdf }}" download
+            style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid currentColor;border-radius:6px;font-size:.875rem;text-decoration:none;opacity:.75;transition:opacity 150ms ease;"
+            onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.75'">
+            &#8595; Download Resume
+          </a>
+        </p>
+
+        <h2>Skills</h2>
+        {{ range $career.skills }}
+        <p>
+          <strong>{{ .category }}:</strong>
+          {{ delimit .items " · " }}
+        </p>
+        {{ end }}
+
+        <h2>Experience</h2>
+        {{ range $career.experience }}
+        <div style="margin-bottom:1.5rem;padding:1rem 1.25rem;border:1px solid rgba(128,128,128,.15);border-radius:8px;">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.5rem;margin-bottom:.5rem;">
+            <strong>{{ .title }}, {{ .company }}</strong>
+            <small style="opacity:.6;font-family:monospace;">{{ .period }}</small>
+          </div>
+          <ul style="margin:0;padding-left:1.25rem;">
+            {{ range .highlights }}
+            <li style="font-size:.9rem;opacity:.85;">{{ . }}</li>
+            {{ end }}
+          </ul>
+        </div>
+        {{ end }}
+
+        <h2>Education</h2>
+        <div style="padding:.75rem 1.25rem;border:1px solid rgba(128,128,128,.15);border-radius:8px;">
+          <strong>{{ $career.education.degree }}</strong>
+          <span style="opacity:.7;"> · {{ $career.education.institution }}</span>
+        </div>
+      </div>
+    </article>
+  </main>
+</div>
+{{ end }}

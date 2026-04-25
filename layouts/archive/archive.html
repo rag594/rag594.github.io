@@ -1,0 +1,16 @@
+{{ define "main" }}
+<div class="wrapper list-page">
+  <header class="header">
+    <h1 class="header-title center">{{ .Title }}</h1>
+  </header>
+  <main class="page-content" aria-label="Content">
+    {{ $posts := where .Site.RegularPages "Section" "posts" }}
+    {{ range ($posts.GroupByDate "2006") }}
+    <h2 class="post-year">{{ .Key }}</h2>
+    {{ range .Pages }}
+    {{ partial "postCard" . }}
+    {{ end }}
+    {{ end }}
+  </main>
+</div>
+{{ end }}
