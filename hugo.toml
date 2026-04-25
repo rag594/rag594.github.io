@@ -75,5 +75,5 @@ weight = 50
 [[menu.main]]
 identifier = "wiki"
 name = "Wiki"
-url = "https://wiki.raghavrastogi.xyz/"
+url = "https://wiki.raghavrastogi.in/"
 weight = 60
