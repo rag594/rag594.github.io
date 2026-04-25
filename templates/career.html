@@ -1,0 +1,68 @@
+{% extends "index.html" %}
+{% block main %}
+
+{% for asset in page.assets %}
+{% if asset is ending_with("data.toml") %}
+{% set_global data = load_data(path=asset, format="toml") %}
+{% endif %}
+{% endfor %}
+
+<article>
+  <header class="mb-10">
+    <h1 class="!my-0 pb-2.5">{{ page.title }}</h1>
+  </header>
+
+  <!-- Summary + PDF download -->
+  <p class="opacity-80">{{ data.summary }}</p>
+  <a
+    class="not-prose mb-10 inline-flex items-center gap-1.5 rounded-md border border-current px-3 py-1.5 text-sm font-medium no-underline opacity-70 transition hover:opacity-100"
+    href="{{ data.resume_pdf }}"
+    download
+  >
+    ↓ Download Resume
+  </a>
+
+  <!-- Skills -->
+  <section class="mb-10">
+    <h2 class="mb-4">Skills</h2>
+    <div class="not-prose flex flex-col gap-2">
+      {% for group in data.skills %}
+      <div class="block-bg flex flex-wrap items-baseline gap-x-2 rounded-lg px-4 py-2.5">
+        <span class="font-semibold text-black dark:text-white">{{ group.category }}:</span>
+        <span class="opacity-75">{{ group.items | join(sep=" · ") }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section class="mb-10">
+    <h2 class="mb-4">Experience</h2>
+    <div class="flex flex-col gap-4">
+      {% for job in data.experience %}
+      <div class="block-bg rounded-lg px-5 py-4">
+        <div class="not-prose mb-2 flex flex-wrap items-baseline justify-between gap-x-4">
+          <h3 class="text-lg font-bold text-black dark:text-white">{{ job.title }}, {{ job.company }}</h3>
+          <time class="font-mono text-sm opacity-60">{{ job.period }}</time>
+        </div>
+        <ul class="my-1 space-y-1 text-sm opacity-80">
+          {% for point in job.highlights %}
+          <li>{{ point }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section>
+    <h2 class="mb-4">Education</h2>
+    <div class="not-prose block-bg rounded-lg px-5 py-3">
+      <span class="font-semibold text-black dark:text-white">{{ data.education.degree }}</span>
+      <span class="opacity-75"> · {{ data.education.institution }}</span>
+    </div>
+  </section>
+</article>
+
+{% endblock main %}
