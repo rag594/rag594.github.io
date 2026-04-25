@@ -15,7 +15,7 @@ jobs:
       with:
         submodules: recursive
     - name: build_and_deploy
-      uses: shalzz/zola-deploy-action@master
+      uses: shalzz/zola-deploy-action@v0.19.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # Target branch
