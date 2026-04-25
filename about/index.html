@@ -1,0 +1,416 @@
+<!doctype html>
+<html class="not-ready lg:text-base" lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- Title -->
+  <title>
+    About - rag594
+  </title>
+
+  <!-- Meta -->
+  <meta name="theme-color" />
+
+  
+  <!-- Author -->
+  
+  <!---->
+  
+  <!---->
+  
+  <!---->
+  
+  <!---->
+  
+  <!---->
+  <meta name="description" content="About" />
+  <meta name="author" content="rag594" />
+  <!-- The Open Graph protocol -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="About" />
+  <meta property="og:site_name" content="rag594" />
+  <meta property="og:description" content="About" />
+  <meta property="og:url" content="https:&#x2F;&#x2F;raghavrastogi.xyz&#x2F;about&#x2F;" />
+  
+  <!---->
+  
+  <!---->
+  
+  <!---->
+  
+  <meta property="og:image" content="https://raghavrastogi.xyz/icons/linkedin_image.jpg" />
+  
+  <!---->
+  
+
+  <!-- CSS & JS -->
+  <link rel="preload stylesheet" as="style" href="https://raghavrastogi.xyz/main.css" />
+  <style>
+    :root {
+      --bg: #f4f4f5;
+      --bg-dark: #18181b;
+      --header: #e4e4e7;
+      --header-dark: #27272a;
+    }
+  </style>
+
+  
+
+  <!-- Dark Icon -->
+  <link rel="preload" as="image" href="https://raghavrastogi.xyz/icons/theme.svg" />
+
+  <!-- Math -->
+  
+  <!---->
+
+  <!-- Mermaid -->
+  
+  <!---->
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://raghavrastogi.xyz/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://raghavrastogi.xyz/apple-touch-icon.png" />
+
+  <!-- Feeds -->
+  
+  <!---->
+  
+  <link
+    rel="alternate"
+    type="application/atom+xml"
+    title="Atom"
+    href="https://raghavrastogi.xyz/atom.xml"
+  />
+   
+  <!---->
+  
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https:&#x2F;&#x2F;raghavrastogi.xyz&#x2F;about&#x2F;" />
+
+  <!-- Head inject -->
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header
+  class="header fixed top-0 z-40 mx-auto min-h-[3.5rem] w-full"
+>
+  <div class="mx-auto w-full max-w-4xl p-3 lg:flex lg:justify-between">
+    <div class="flex justify-between">
+      <div class="flex items-center">
+        <a class="text-2xl font-semibold" href="https://raghavrastogi.xyz">rag594</a>
+        <div
+          class="btn-dark ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0] [background:url(./icons/theme.svg)_left_center/cover_no-repeat] dark:invert dark:[background-position:right]"
+          role="button"
+          aria-label="Dark"
+        ></div>
+      </div>
+      
+      <div
+        class="btn-menu relative z-50 flex h-8 w-8 shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+        role="button"
+        aria-label="Menu"
+      ></div>
+      
+    </div>
+    <script>
+      // base
+      const htmlClass = document.documentElement.classList;
+      setTimeout(() => {
+        htmlClass.remove("not-ready");
+      }, 10);
+
+      // mobile menu
+      const btnMenu = document.querySelector(".btn-menu");
+      btnMenu?.addEventListener("click", () => {
+        htmlClass.toggle("open");
+      });
+
+      // dark theme
+      const setDark = (isDark) => {
+        if (isDark) {
+          document.body.dispatchEvent(new CustomEvent("set-theme", { detail: "dark" }));
+          htmlClass.add("dark");
+        } else {
+          document.body.dispatchEvent(new CustomEvent("set-theme", { detail: "light" }));
+          htmlClass.remove("dark");
+        }
+        localStorage.setItem("dark", isDark);
+      };
+
+      // init
+      const darkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+      if (htmlClass.contains("dark")) {
+        setDark(true);
+      } else {
+        const darkVal = localStorage.getItem("dark");
+        setDark(darkVal ? darkVal === "true" : darkScheme.matches);
+      }
+
+      // listen system
+      darkScheme.addEventListener("change", (event) => {
+        setDark(event.matches);
+      });
+
+      // manual switch
+      const btnDark = document.querySelector(".btn-dark");
+      btnDark.addEventListener("click", () => {
+        setDark(localStorage.getItem("dark") !== "true");
+      });
+    </script>
+    
+    <nav class="flex w-full items-center lg:w-auto">
+      <ul
+        class="nav-wrapper flex w-full flex-col py-2 lg:w-auto lg:flex-row lg:self-center lg:py-0"
+      >
+        
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="https://raghavrastogi.xyz/projects"
+            >Projects</a
+          >
+        </li>
+        
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="https://raghavrastogi.xyz/archive"
+            >Archive</a
+          >
+        </li>
+        
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="https://raghavrastogi.xyz/tags"
+            >Tags</a
+          >
+        </li>
+        
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="https://raghavrastogi.xyz/about"
+            >About</a
+          >
+        </li>
+        
+      </ul>
+      <!-- Header Nav inject -->
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <!-- Body Start inject -->
+    
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl break-words px-4 pb-16 pt-32 dark:prose-invert prose-pre:rounded-lg prose-img:rounded-lg"
+    >
+      
+
+
+
+
+
+
+
+<article>
+  <header class="mb-10">
+    <h1 class="!my-0 pb-2.5">About</h1>
+  </header>
+
+  <!-- Summary + PDF download -->
+  <p class="opacity-80">Senior Software Development Engineer with over 8 years of experience in designing and developing complex software systems and delivering high-quality, scalable solutions. Proficient in backend development and software architecture.</p>
+  <a
+    class="not-prose mb-10 inline-flex items-center gap-1.5 rounded-md border border-current px-3 py-1.5 text-sm font-medium no-underline opacity-70 transition hover:opacity-100"
+    href="&#x2F;Raghav_Rastogi_SDE-4.pdf"
+    download
+  >
+    ↓ Download Resume
+  </a>
+
+  <!-- Skills -->
+  <section class="mb-10">
+    <h2 class="mb-4">Skills</h2>
+    <div class="not-prose flex flex-col gap-2">
+      
+      <div class="block-bg flex flex-wrap items-baseline gap-x-2 rounded-lg px-4 py-2.5">
+        <span class="font-semibold text-black dark:text-white">Languages &amp; Frameworks:</span>
+        <span class="opacity-75">Go · Java · Echo · Gin · Spring Boot</span>
+      </div>
+      
+      <div class="block-bg flex flex-wrap items-baseline gap-x-2 rounded-lg px-4 py-2.5">
+        <span class="font-semibold text-black dark:text-white">Infrastructure &amp; Tools:</span>
+        <span class="opacity-75">MySQL · Redis · Kafka · AWS · Docker · Kong · API Gateway · GIT</span>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section class="mb-10">
+    <h2 class="mb-4">Experience</h2>
+    <div class="flex flex-col gap-4">
+      
+      <div class="block-bg rounded-lg px-5 py-4">
+        <div class="not-prose mb-2 flex flex-wrap items-baseline justify-between gap-x-4">
+          <h3 class="text-lg font-bold text-black dark:text-white">Software Development Engineer - 4, Cashfree Payments</h3>
+          <time class="font-mono text-sm opacity-60">Oct 2025 – Present</time>
+        </div>
+        <ul class="my-1 space-y-1 text-sm opacity-80">
+          
+          <li>Working as an IC on the disbursal platform (payouts), leading scaling efforts and technical roadmap.</li>
+          
+        </ul>
+      </div>
+      
+      <div class="block-bg rounded-lg px-5 py-4">
+        <div class="not-prose mb-2 flex flex-wrap items-baseline justify-between gap-x-4">
+          <h3 class="text-lg font-bold text-black dark:text-white">Software Development Engineer - 3, Cashfree Payments</h3>
+          <time class="font-mono text-sm opacity-60">Aug 2024 – Oct 2025</time>
+        </div>
+        <ul class="my-1 space-y-1 text-sm opacity-80">
+          
+          <li>Spearheaded building a 0→1 platform for prepaid cards (PPI) covering cards management and expense management.</li>
+          
+          <li>Built a 0→1 VideoKYC platform from the ground up for small finance banks and fintechs, ensuring regulatory compliance.</li>
+          
+          <li>Led the full product lifecycle: requirement gathering, architecture design, development, and deployment.</li>
+          
+          <li>Reduced UPI extraction from mobile feature latency from ~19s to ~4s.</li>
+          
+        </ul>
+      </div>
+      
+      <div class="block-bg rounded-lg px-5 py-4">
+        <div class="not-prose mb-2 flex flex-wrap items-baseline justify-between gap-x-4">
+          <h3 class="text-lg font-bold text-black dark:text-white">Founding Senior Engineer, Stealth Startup at Super{set}</h3>
+          <time class="font-mono text-sm opacity-60">Jun 2024 – Aug 2024</time>
+        </div>
+        <ul class="my-1 space-y-1 text-sm opacity-80">
+          
+          <li>Ideated, designed and implemented MVP for a commerce media lakehouse for retailers.</li>
+          
+        </ul>
+      </div>
+      
+      <div class="block-bg rounded-lg px-5 py-4">
+        <div class="not-prose mb-2 flex flex-wrap items-baseline justify-between gap-x-4">
+          <h3 class="text-lg font-bold text-black dark:text-white">Software Development Engineer - 3, Cashfree Payments</h3>
+          <time class="font-mono text-sm opacity-60">Apr 2023 – May 2024</time>
+        </div>
+        <ul class="my-1 space-y-1 text-sm opacity-80">
+          
+          <li>Built a configuration-driven framework in Go for 6 identity verification features, reducing release time from ~2 weeks to ~2–3 days.</li>
+          
+          <li>Designed an optimal router for the verification suite achieving ~400 TPS at peak; reduced gateway failures by 40% and improved UPI validation SR from 99% to 99.8%.</li>
+          
+          <li>Reduced operational overhead of merchant configuration by ~90% through a configuration management system.</li>
+          
+          <li>Led monitoring and observability improvements for a team of 8 engineers, bringing down MTTR by ~53%.</li>
+          
+          <li>Spearheaded API Gateway migration across Cashfree, eliminating 70% of redundant API layers.</li>
+          
+        </ul>
+      </div>
+      
+      <div class="block-bg rounded-lg px-5 py-4">
+        <div class="not-prose mb-2 flex flex-wrap items-baseline justify-between gap-x-4">
+          <h3 class="text-lg font-bold text-black dark:text-white">Software Development Engineer - 2, Cashfree Payments</h3>
+          <time class="font-mono text-sm opacity-60">Feb 2021 – Apr 2023</time>
+        </div>
+        <ul class="my-1 space-y-1 text-sm opacity-80">
+          
+          <li>Led design and development for the Verification Suite team across all products.</li>
+          
+          <li>Introduced observability and monitoring for all VRS products, increasing efficiency by 90%.</li>
+          
+          <li>Grew code coverage from 25% to 75% through proactive tech-debt reduction.</li>
+          
+          <li>Co-led design and development of the Partners platform, including OAuth 2.0 integration.</li>
+          
+        </ul>
+      </div>
+      
+      <div class="block-bg rounded-lg px-5 py-4">
+        <div class="not-prose mb-2 flex flex-wrap items-baseline justify-between gap-x-4">
+          <h3 class="text-lg font-bold text-black dark:text-white">Senior Software Engineer, Jivox</h3>
+          <time class="font-mono text-sm opacity-60">May 2019 – Feb 2021</time>
+        </div>
+        <ul class="my-1 space-y-1 text-sm opacity-80">
+          
+          <li>Designed and implemented metadata labeling improving reporting, analytics, and asset selection for campaigns.</li>
+          
+          <li>Built campaign cloning feature that reduced manual campaign creation effort by ~60%.</li>
+          
+        </ul>
+      </div>
+      
+      <div class="block-bg rounded-lg px-5 py-4">
+        <div class="not-prose mb-2 flex flex-wrap items-baseline justify-between gap-x-4">
+          <h3 class="text-lg font-bold text-black dark:text-white">R&amp;D Software Engineer - 2, CA Technologies (Broadcom)</h3>
+          <time class="font-mono text-sm opacity-60">Jul 2017 – May 2019</time>
+        </div>
+        <ul class="my-1 space-y-1 text-sm opacity-80">
+          
+          <li>Designed and implemented a 3D-Secure server (3DS 2.0 spec) capable of processing ~3,000 transactions per second.</li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section>
+    <h2 class="mb-4">Education</h2>
+    <div class="not-prose block-bg rounded-lg px-5 py-3">
+      <span class="font-semibold text-black dark:text-white">BE Computer Science</span>
+      <span class="opacity-75"> · RV College of Engineering, Bengaluru</span>
+    </div>
+  </section>
+</article>
+
+
+    </main>
+
+    <footer class="mx-auto flex max-w-3xl flex-wrap items-center px-8 py-4 text-sm opacity-60">
+  <div class="mr-auto basis-full lg:basis-1/2">
+    <!---->
+    <!---->
+    &copy; 2025 - 2026<!---->
+    
+    <a class="link" href="https://raghavrastogi.xyz">
+      rag594
+    </a>
+     |<!---->
+    <!---->
+    <a class="link" href="https:&#x2F;&#x2F;creativecommons.org&#x2F;licenses&#x2F;by-sa&#x2F;4.0&#x2F;deed" rel="noopener" target="_blank">
+      CC BY-SA 4.0
+    </a>
+    <!---->
+    
+  </div>
+  <div class="flex basis-full lg:basis-1/2 lg:justify-end">
+    <a class="link mr-6 lg:ml-6" href="https://www.getzola.org/" rel="noopener" target="_blank">
+      Powered by Zola
+    </a>
+    <a class="link" href="https://github.com/st1020/kita" rel="noopener" target="_blank">✎ Kita</a>
+  </div>
+  <!-- Footer inject -->
+  
+</footer>
+
+
+    <!-- Body End inject -->
+    
+  </body>
+</html>
