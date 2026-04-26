@@ -1,4 +1,4 @@
-# raghavrastogi.xyz
+# raghavrastogi.in
 
 Personal blog and portfolio site built with [Hugo](https://gohugo.io/) and the [hugo-blog-awesome](https://github.com/hugo-sid/hugo-blog-awesome) theme. Deployed to GitHub Pages via GitHub Actions on every push to `main`.
 
@@ -35,4 +35,4 @@ layouts/
 
 ## Deployment
 
-Push to `main` → GitHub Actions builds with Hugo and pushes to the `gh-pages` branch → served at [raghavrastogi.xyz](https://raghavrastogi.xyz).
+Push to `main` → GitHub Actions builds with Hugo and pushes to the `gh-pages` branch → served at [raghavrastogi.in](https://raghavrastogi.in).
